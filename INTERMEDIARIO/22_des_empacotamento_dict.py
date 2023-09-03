@@ -22,7 +22,7 @@ dados_pessoa = {
 }
 
 pessoas_completa = {**pessoa, **dados_pessoa}
-# print(pessoas_completa)
+print(pessoas_completa)
 
 # args e kwargs
 # args (já vimos)
@@ -32,6 +32,8 @@ pessoas_completa = {**pessoa, **dados_pessoa}
 def mostro_argumentos_nomeados(*args, **kwargs):
     print('NÃO NOMEADOS:', args)
 
+    print(type(kwargs))
+    print(kwargs)
     for chave, valor in kwargs.items():
         print(chave, valor)
 
@@ -45,4 +47,4 @@ configuracoes = {
     'arg3': 3,
     'arg4': 4,
 }
-mostro_argumentos_nomeados(**configuracoes)
+mostro_argumentos_nomeados(*configuracoes, **configuracoes)
