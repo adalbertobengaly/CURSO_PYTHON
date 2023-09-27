@@ -17,6 +17,8 @@
 import enum
 
 # Direcoes = enum.Enum('Direcoes', ['ESQUERDA', 'DIREITA'])
+
+
 class Direcoes(enum.Enum):
     ESQUERDA = enum.auto()
     DIREITA = enum.auto()
