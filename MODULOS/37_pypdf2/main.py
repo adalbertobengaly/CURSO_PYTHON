@@ -8,7 +8,7 @@
 # Ative seu ambiente virtual
 # pip install pypdf2
 from pathlib import Path
-from PyPDF2 import PdfReader
+from PyPDF2 import PdfReader, PdfWriter
 
 PASTA_RAIZ = Path(__file__).parent
 PASTA_ORGINAIS = PASTA_RAIZ / 'pdfs_originais'
@@ -31,3 +31,17 @@ imagem0 = page0.images[0]
 # print(page0.images[0])
 # with open(PASTA_NOVA / imagem0.name, 'wb') as fp:
 #     fp.write(imagem0.data)
+
+# writer = PdfWriter()
+# writer.add_page(page0)
+
+# with open(PASTA_NOVA / 'NOVO_PDF.pdf', 'wb') as arquivo:
+#     for page in reader.pages:
+#         writer.add_page(page)
+#     writer.write(arquivo)
+
+for i, page in enumerate(reader.pages):
+    writer = PdfWriter()
+    with open(PASTA_NOVA / f'page_{i}.pdf', 'wb') as arquivo:
+        writer.add_page(page)
+        writer.write(arquivo)
