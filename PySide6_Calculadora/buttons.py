@@ -141,7 +141,7 @@ class ButtonsGrid(QGridLayout):
         displayText = self.display.text()
 
         if not isValidNumber(displayText):
-            print('Sem nada a direita')
+            self._showError('Digite um valor.')
             return
 
         self._right = float(displayText)
@@ -154,9 +154,9 @@ class ButtonsGrid(QGridLayout):
             else:
                 result = eval(self.equation)
         except ZeroDivisionError:
-            print('Zero Division Error')
+            self._showError('Divisão por zero.')
         except OverflowError:
-            print('Número muito grande')
+            self._showError('O resultado é um número muito grande.')
 
         self.display.clear()
         self.info.setText(f'{self.equation} = {result}')
@@ -166,35 +166,17 @@ class ButtonsGrid(QGridLayout):
         if result == 'error':
             self._left = None
 
-    def _showError(self, text):
+    def _makeDialog(self, text):
         msgBox = self.window.makeMsgBox()
         msgBox.setText(text)
-        msgBox.setInformativeText(
-            '''
-            Lorem Ipsum é simplesmente uma simulação de texto da indústria
-            tipográfica e de impressos, e vem sendo utilizado desde o século
-            XVI, quando um impressor desconhecido pegou uma bandeja de tipos e
-            os embaralhou para fazer um livro de modelos de tipos. Lorem Ipsum
-            sobreviveu não só a cinco séculos, como também ao salto para a
-            editoração eletrônica, permanecendo essencialmente inalterado.
-            Se popularizou na década de 60, quando a Letraset lançou decalques
-            contendo passagens de Lorem Ipsum, e mais recentemente quando
-            passou a ser integrado a softwares de editoração eletrônica como
-            Aldus PageMaker.'''
-        )
-        msgBox.setIcon(msgBox.Icon.Warning)
+        return msgBox
 
-        msgBox.setStandardButtons(
-            msgBox.StandardButton.Ok |
-            msgBox.StandardButton.Cancel |
-            msgBox.StandardButton.Save
-        )
+    def _showError(self, text):
+        msgBox = self._makeDialog(text)
+        msgBox.setIcon(msgBox.Icon.Critical)
+        msgBox.exec()
 
-        result = msgBox.exec()
-
-        if result == msgBox.StandardButton.Ok:
-            print('Usuário cliclou em OK')
-        elif result == msgBox.StandardButton.Cancel:
-            print('Usuário cliclou em Cancel')
-        elif result == msgBox.StandardButton.Save:
-            print('Usuário cliclou em Save')
+    def _showInfo(self, text):
+        msgBox = self._makeDialog(text)
+        msgBox.setIcon(msgBox.Icon.Information)
+        msgBox.exec()
