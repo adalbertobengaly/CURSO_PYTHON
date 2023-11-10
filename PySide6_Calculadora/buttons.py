@@ -169,5 +169,32 @@ class ButtonsGrid(QGridLayout):
     def _showError(self, text):
         msgBox = self.window.makeMsgBox()
         msgBox.setText(text)
+        msgBox.setInformativeText(
+            '''
+            Lorem Ipsum é simplesmente uma simulação de texto da indústria
+            tipográfica e de impressos, e vem sendo utilizado desde o século
+            XVI, quando um impressor desconhecido pegou uma bandeja de tipos e
+            os embaralhou para fazer um livro de modelos de tipos. Lorem Ipsum
+            sobreviveu não só a cinco séculos, como também ao salto para a
+            editoração eletrônica, permanecendo essencialmente inalterado.
+            Se popularizou na década de 60, quando a Letraset lançou decalques
+            contendo passagens de Lorem Ipsum, e mais recentemente quando
+            passou a ser integrado a softwares de editoração eletrônica como
+            Aldus PageMaker.'''
+        )
         msgBox.setIcon(msgBox.Icon.Warning)
-        msgBox.exec()
+
+        msgBox.setStandardButtons(
+            msgBox.StandardButton.Ok |
+            msgBox.StandardButton.Cancel |
+            msgBox.StandardButton.Save
+        )
+
+        result = msgBox.exec()
+
+        if result == msgBox.StandardButton.Ok:
+            print('Usuário cliclou em OK')
+        elif result == msgBox.StandardButton.Cancel:
+            print('Usuário cliclou em Cancel')
+        elif result == msgBox.StandardButton.Save:
+            print('Usuário cliclou em Save')
