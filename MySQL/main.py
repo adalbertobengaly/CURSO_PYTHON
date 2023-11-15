@@ -92,3 +92,13 @@ with connection:
         print(valuesTuple)
         print(result)
     connection.commit()
+
+    with connection.cursor() as cursor:
+        sql = (
+            f'SELECT * FROM {TABLE_NAME} '
+        )
+        result = cursor.execute(sql)
+        dados = cursor.fetchall()
+
+        for row in dados:
+            print(row)
