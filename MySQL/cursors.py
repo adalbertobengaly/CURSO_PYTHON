@@ -18,7 +18,8 @@ connection = pymysql.connect(
     password=os.environ['MYSQL_PASSWORD'],
     database=os.environ['MYSQL_DATABASE'],
     charset='utf8mb4',
-    cursorclass=pymysql.cursors.DictCursor,
+    cursorclass=pymysql.cursors.SSDictCursor,
+    # cursorclass=pymysql.cursors.DictCursor,
 )
 
 with connection:
@@ -57,10 +58,25 @@ with connection:
 
         cursor.execute(f'SELECT * FROM {TABLE_NAME} ')
 
-        # for row in cursor.fetchall():
-        #     _id, name, age = row.items()
-        #     print(_id, name, age)
+        # data = cursor.fetchall()
 
-        for row in cursor.fetchall():
+        print('For 1:')
+        # for row in cursor.fetchall():
+        for row in cursor.fetchall_unbuffered():
             print(row)
+
+            if row['id'] >= 5:
+                break
+
+        # SSDictCursor não carrega todos os dados de vez,
+        # portanto o scroll não vai funcionar com 'fetchall_unbuffered()'
+        # cursor.scroll(-2)
+        # cursor.scroll(1)
+        # cursor.scroll(0, 'absolute')
+
+        print('\nFor 2:')
+        # for row in cursor.fetchall():
+        for row in cursor.fetchall_unbuffered():
+            print(row)
+
     connection.commit()
