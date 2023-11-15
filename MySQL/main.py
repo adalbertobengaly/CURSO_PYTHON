@@ -43,3 +43,19 @@ with connection:
         print(sql)
         print(result)
     connection.commit()
+
+    with connection.cursor() as cursor:
+        sql = (
+            f'INSERT INTO {TABLE_NAME} '
+            '(nome, idade) VALUES '
+            '(%(name)s, %(age)s) '
+        )
+        valueDict = {
+            "name": "Adalberto",
+            "age": 26
+        }
+        result = cursor.execute(sql, valueDict)
+        print(sql)
+        print(valueDict)
+        print(result)
+    connection.commit()
