@@ -105,8 +105,10 @@ with connection:
         #     print(row)
 
     with connection.cursor() as cursor:
-        menor_id = int(input('Digite o menor id: '))
-        maior_id = int(input('Digite o maior id: '))
+        # menor_id = int(input('Digite o menor id: '))
+        # maior_id = int(input('Digite o maior id: '))
+        menor_id = 2
+        maior_id = 4
 
         # sql = (
         #     f'SELECT * FROM {TABLE_NAME} '
@@ -119,8 +121,24 @@ with connection:
         )
 
         cursor.execute(sql, (menor_id, maior_id))
-        print(cursor.mogrify(sql, (menor_id, maior_id)))
+        # print(cursor.mogrify(sql, (menor_id, maior_id)))
         data = cursor.fetchall()
 
-        for row in data:
+        # for row in data:
+        #     print(row)
+
+    # 'DELETE' ou 'UPDATE' SEM 'WHERE' terá efeito sobre
+    # todos os dados da tabela
+    with connection.cursor() as cursor:
+        sql = (
+            f'DELETE FROM {TABLE_NAME} '
+            'WHERE id = %s'
+        )
+
+        cursor.execute(sql, 1)
+        connection.commit()
+
+        cursor.execute(f'SELECT * FROM {TABLE_NAME} ')
+
+        for row in cursor.fetchall():
             print(row)
