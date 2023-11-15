@@ -72,9 +72,9 @@ with connection:
             {"name": "Luiz", "age": 33},
         )
         result = cursor.executemany(sql, valuesDict)  # type:ignore
-        print(sql)
-        print(valuesDict)
-        print(result)
+        # print(sql)
+        # print(valuesDict)
+        # print(result)
     connection.commit()
 
     with connection.cursor() as cursor:
@@ -88,17 +88,39 @@ with connection:
             ("Helena", 15)
         )
         result = cursor.executemany(sql, valuesTuple)  # type:ignore
-        print(sql)
-        print(valuesTuple)
-        print(result)
+        # print(sql)
+        # print(valuesTuple)
+        # print(result)
     connection.commit()
 
     with connection.cursor() as cursor:
         sql = (
             f'SELECT * FROM {TABLE_NAME} '
+            'WHERE id > 3'
         )
         result = cursor.execute(sql)
         dados = cursor.fetchall()
 
-        for row in dados:
+        # for row in dados:
+        #     print(row)
+
+    with connection.cursor() as cursor:
+        menor_id = int(input('Digite o menor id: '))
+        maior_id = int(input('Digite o maior id: '))
+
+        # sql = (
+        #     f'SELECT * FROM {TABLE_NAME} '
+        #     'WHERE id >= %s AND id <= %s'
+        # )
+
+        sql = (
+            f'SELECT * FROM {TABLE_NAME} '
+            'WHERE id BETWEEN %s AND %s'
+        )
+
+        cursor.execute(sql, (menor_id, maior_id))
+        print(cursor.mogrify(sql, (menor_id, maior_id)))
+        data = cursor.fetchall()
+
+        for row in data:
             print(row)
