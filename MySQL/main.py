@@ -128,7 +128,8 @@ with connection:
         #     print(row)
 
     # 'DELETE' ou 'UPDATE' SEM 'WHERE' terá efeito sobre
-    # todos os dados da tabela
+    # todos os dados da tabela.
+    # 'DELETE' e 'UPDATE', apagam e atualizam todos os dados respectivamente
     with connection.cursor() as cursor:
         sql = (
             f'DELETE FROM {TABLE_NAME} '
@@ -140,5 +141,20 @@ with connection:
 
         cursor.execute(f'SELECT * FROM {TABLE_NAME} ')
 
+        # for row in cursor.fetchall():
+        #     print(row)
+
+    with connection.cursor() as cursor:
+        sql = (
+            f'UPDATE {TABLE_NAME} '
+            'SET nome=%s, idade=%s '
+            'WHERE id = %s'
+        )
+
+        cursor.execute(sql, ('Eleonor', 102, 4))
+
+        cursor.execute(f'SELECT * FROM {TABLE_NAME} ')
+
         for row in cursor.fetchall():
             print(row)
+    connection.commit()
