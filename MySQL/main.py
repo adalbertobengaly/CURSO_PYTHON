@@ -40,8 +40,8 @@ with connection:
         )
         value = ('Natália', 25)
         result = cursor.execute(sql, value)
-        print(sql)
-        print(result)
+        # print(sql)
+        # print(result)
     connection.commit()
 
     with connection.cursor() as cursor:
@@ -55,7 +55,40 @@ with connection:
             "age": 26
         }
         result = cursor.execute(sql, valueDict)
+        # print(sql)
+        # print(valueDict)
+        # print(result)
+    connection.commit()
+
+    with connection.cursor() as cursor:
+        sql = (
+            f'INSERT INTO {TABLE_NAME} '
+            '(nome, idade) VALUES '
+            '(%(name)s, %(age)s) '
+        )
+        valuesDict = (
+            {"name": "Jake", "age": 36},
+            {"name": "Anderson", "age": 30},
+            {"name": "Luiz", "age": 33},
+        )
+        result = cursor.executemany(sql, valuesDict)  # type:ignore
         print(sql)
-        print(valueDict)
+        print(valuesDict)
+        print(result)
+    connection.commit()
+
+    with connection.cursor() as cursor:
+        sql = (
+            f'INSERT INTO {TABLE_NAME} '
+            '(nome, idade) VALUES '
+            '(%s, %s) '
+        )
+        valuesTuple = (
+            ("Siri", 22),
+            ("Helena", 15)
+        )
+        result = cursor.executemany(sql, valuesTuple)  # type:ignore
+        print(sql)
+        print(valuesTuple)
         print(result)
     connection.commit()
